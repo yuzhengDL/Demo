@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Demo</title>
+<style type="text/css">
+      body {
+        background-color: #f1f1f1;
+        margin:0;
+      }
+      body,
+      button {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      .container {
+        margin: 15px auto 40px auto; 
+        width: 800px;
+        padding: 7px 8px;
+        text-align: center; 
+        position:absolute;
+      }
+
+      .user{
+        background-image: url(../static/camera.png);
+        background-size: 35px 35px;
+        background-repeat: no-repeat;
+        background-position: right center;
+        padding:7px 1.5cm 7px 7px;
+      }
+ 
+      a { color: #4183c4; text-decoration: none; font-weight: bold; }
+      a:hover { text-decoration: underline; }
+ 
+      h3 { color: #666; }
+      ul { list-style: none; padding: 25px 0; }
+      li {
+        display: inline;
+        margin: 10px 50px 10px 0px;
+      }
+      
+      input[type=text]{
+        font-size: 13px;
+        min-height: 32px;
+        margin: 0;
+        outline: none;
+        color: #333;
+        background-color: #fff;
+        
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        transition: all 0.15s ease-in;
+        -webkit-transition: all 0.15s ease-in 0;
+        vertical-align: middle;
+      }
+
+      .button {
+        position: relative;
+        display: inline-block;
+        margin: 0;
+        padding: 8px 15px;
+        font-size: 13px;
+        font-weight: bold;
+        color: #333;
+        text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+        white-space: nowrap;
+        background-color: #eaeaea;
+        background-image: -moz-linear-gradient(#fafafa, #eaeaea);
+        background-image: -webkit-linear-gradient(#fafafa, #eaeaea);
+        background-image: linear-gradient(#fafafa, #eaeaea);
+        background-repeat: repeat-x;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+        border-bottom-color: #c5c5c5;
+        box-shadow: 0 1px 3px rgba(0,0,0,.05);
+        vertical-align: middle;
+        cursor: pointer;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-appearance: none;
+      }
+      .button:hover,
+      .button:active {
+        background-position: 0 -15px;
+        border-color: #ccc #ccc #b5b5b5;
+      }
+      .button:active {
+        background-color: #dadada;
+        border-color: #b5b5b5;
+        background-image: none;
+        box-shadow: inset 0 3px 5px rgba(0,0,0,.15);
+      }
+      .button:focus,
+      input[type=text]:focus,
+      input[type=password]:focus {
+        outline: none;
+        border-color: #51a7e8;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,.075), 0 0 5px rgba(81,167,232,.5);
+      }
+      
+      label[for=search] {
+        display: block;
+        text-align: left;
+      }
+      #search label {
+        font-weight: 200;
+        padding: 5px 0;
+      }
+      #search input[type=text] {
+        font-size: 18px;
+        width: 600px;
+      }
+      #search .button {
+        padding: 10px;
+        width: 90px;
+      }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+      <div id="search">
+        <label for="search"></label>
+        <a href="http://219.223.195.160:8000/">
+        <input type="image" src="../static/peking.gif" align='left' width=auto height=40px></a>
+        <form method="post" action="/rank">
+        <input type="text" name="words" class="user" value="{{words}}" id="fileName">
+        <input class="button" type="submit" value="Search">
+        <input type="file" name="upload_img" id="file" onchange="change(this.value)" style="opacity:0;
+            filter:alpha(opacity=0);
+            height: 10px;
+            width: 30px;
+            position: absolute;
+            top: 20%;
+            left: 80%;
+            z-index: 9;">
+        </form>
+      </div>
+    </div>
+    <div style="position:absolute;top:80px;left:900px">
+        <h1 style="text-align:center;"><input type="image" src={{static_url("train2014/"+ims_url)}} align='left'></h1>
+    </div>
+    <div style="position:absolute;top:90px;left:100px;">
+    {% for i in range(len(w)) %}
+        {% if w[i] in groudtruth %}
+            <p><font color="#FF0000">{{str(i+1)+'.'}} &nbsp; {{index[w[i]]}}</font></p>
+        {% else %}
+            <p>{{str(i+1)+'.'}} &nbsp; {{index[w[i]]}}</p>
+        {% end %}
+    {% end %}
+    </div>
+</body>
+<script type="text/javascript">
+    function change(src){
+        var str = src;
+        var fileName = document.getElementById("fileName");
+        var arr = str.split('\\');
+        var my = arr[arr.length-1];
+        document.getElementById("fileName").value = my;
+    }
+</script>
+</html>
